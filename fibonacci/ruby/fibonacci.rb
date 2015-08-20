@@ -8,7 +8,7 @@
 #   (blank: loop 3..n if n > 2 || 1)
 #
 # <n>:
-#   fibonacci's parameter
+#   fibonacci parameter
 #
 # My Best Benchmark for fib(30):
 #   $ time ruby fibonacci.rb 30
@@ -19,12 +19,12 @@
 #       c_fib(30) = 832040 (0m0.033s)
 #
 # My Best Benchmark for fib(1000000):
-#   $time ruby fibonacci.rb 1000000
-#       STACK OVERFLOW AT RECURSION Nº 7695   (0m0.040s)
-#   $time ruby fibonacci.rb -r 1000000
-#       STACK OVERFLOW AT RECURSION Nº 9347   (0m0.053s)
-#   $time ruby fibonacci.rb -c 1000000
+#   $ time ruby fibonacci.rb 1000000
 #       c_fib(1000000) = <really big number> (0m15.433s)
+#   $ time ruby fibonacci.rb -r 1000000
+#       STACK OVERFLOW AT RECURSION Nº 9347  (0m0.053s)
+#   $ time ruby fibonacci.rb -c 1000000
+#      STACK OVERFLOW AT RECURSION Nº 7695   (0m0.040s) 
 #----------------------------------------------------------------------------
 
 $cache = {}
@@ -48,5 +48,8 @@ end
 
 mode = ARGV.include?("-r") ? :r : ARGV.include?("-c") ? :c : :none
 n = ARGV[-1].to_i
-puts "#{mode == :r ? "r_" : mode == :c ? "c_" : ""}fib(#{n}) = #{mode == :c ? cached_fibonacci(n) : mode == :r ? recursive_fibonacci(n) : fibonacci(n)}"
+puts n < 0 ? "Only positive parameters please." :
+     "#{mode == :r ? "r_" : mode == :c ? "c_" : ""}fib(#{n}) = #{
+        mode == :c ? cached_fibonacci(n) :
+        mode == :r ? recursive_fibonacci(n) : fibonacci(n)}"
 
